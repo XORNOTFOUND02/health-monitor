@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+screenshots/
+.agentic-memory/
+node_modules/
+evaluation_results/
+deploy/
+
+# Environment
+.env
+*.env.local
+
+# Logs
+*.log
+
+# Large synthetic data
+data/synthetic/raw/
