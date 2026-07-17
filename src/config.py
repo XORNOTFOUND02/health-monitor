@@ -33,6 +33,7 @@ class SamplingRates:
     PPG: int = 25         # Raw PPG waveform from MAX30102
     SPO2: int = 25        # SpO2 readings from MAX30102
     TEMP: int = 1         # Temperature (STTS22H + LM35)
+    MAG: int = 25         # HMC5883L magnetometer
 
 
 SAMPLING_RATES = SamplingRates()

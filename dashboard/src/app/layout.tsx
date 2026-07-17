@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import Topbar from "@/components/topbar";
+import { ThemeProvider } from "@/hooks/use-theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,17 +29,34 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                var t = localStorage.getItem("health-monitor-theme");
+                if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                  document.documentElement.classList.add("dark");
+                }
+              } catch(e) {}
+            })();
+          `
+        }} />
+      </head>
       <body className="h-full">
-        <div className="flex h-full">
-          <Sidebar />
-          <div className="flex flex-1 flex-col">
-            <Topbar />
-            <main className="flex-1 overflow-y-auto bg-muted/30 p-6">
-              {children}
-            </main>
+        <ThemeProvider>
+          <div className="flex h-full">
+            <Sidebar />
+            <div className="flex flex-1 flex-col">
+              <Topbar />
+              <main className="flex-1 overflow-y-auto bg-muted/30 p-6">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );

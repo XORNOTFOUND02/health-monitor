@@ -1,124 +1,124 @@
 {
   "cardiac": {
     "tachycardia": {
-      "accuracy": 1.0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "auc_roc": 1.0,
-      "support_true": 194,
-      "support_false": 1134
+      "accuracy": 0.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_roc": 0.5,
+      "support_true": 1,
+      "support_false": 1
     },
     "irregular_rhythm": {
       "accuracy": 1.0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "auc_roc": 1.0,
-      "support_true": 116,
-      "support_false": 1212
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_roc": 0.0,
+      "support_true": 0,
+      "support_false": 2
     },
     "overall": {
-      "accuracy": 1.0,
-      "macro_f1": 1.0,
-      "weighted_f1": 1.0
+      "accuracy": 0.75,
+      "macro_f1": 0.42857142857142855,
+      "weighted_f1": 0.6428571428571428
     }
   },
   "respiratory": {
     "condition": "low_spo2",
-    "accuracy": 0.9992469879518072,
-    "precision": 1.0,
-    "recall": 0.9924812030075187,
-    "f1": 0.9962264150943396,
-    "auc_roc": 0.9999937081196716,
+    "accuracy": 0.5,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "auc_roc": 0.5,
     "confusion_matrix": [
       [
-        1195,
+        1,
         0
       ],
       [
         1,
-        132
+        0
       ]
     ],
-    "support_true": 133,
-    "support_false": 1195
+    "support_true": 1,
+    "support_false": 1
   },
   "activity": {
     "fall_detected": {
       "accuracy": 1.0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "auc_roc": 1.0,
-      "support_true": 148,
-      "support_false": 1180
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_roc": 0.0,
+      "support_true": 0,
+      "support_false": 2
     },
     "sleep_problem": {
-      "accuracy": 0.9924698795180723,
-      "precision": 0.9624413145539906,
-      "recall": 0.9903381642512077,
-      "f1": 0.9761904761904762,
-      "auc_roc": 0.9995992191237121,
-      "support_true": 207,
-      "support_false": 1121
+      "accuracy": 0.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_roc": 0.5,
+      "support_true": 1,
+      "support_false": 1
     },
     "fatigue": {
       "accuracy": 1.0,
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
-      "auc_roc": 1.0,
-      "support_true": 1261,
-      "support_false": 67
+      "auc_roc": 0.0,
+      "support_true": 2,
+      "support_false": 0
     },
     "overall": {
-      "accuracy": 0.9974899598393574,
-      "macro_f1": 0.9973987544839491,
-      "weighted_f1": 0.9974906933944948
+      "accuracy": 0.8333333333333334,
+      "macro_f1": 0.8285714285714285,
+      "weighted_f1": 0.8285714285714286
     }
   },
   "feature_importance": {
     "cardiac_top10": {
-      "hr_tachycardia_pct": 15335.719841918344,
-      "xsensor_fall_risk": 11995.482207485911,
-      "hr_entropy": 8660.225197944426,
-      "hr_cubic_mean": 8251.548914030278,
-      "motion_gy_max": 5353.485763847238,
-      "motion_jerk_peak": 4537.520031797672,
-      "motion_gy_range": 4031.1222931818625,
-      "hrv_median_rr": 3162.1062026298023,
-      "motion_jerk_mean": 3006.168227003538,
-      "hr_min": 2687.847681307583
+      "freq_ax_dominant_freq": 0.0,
+      "freq_ax_dominant_power": 0.0,
+      "freq_ax_power_0_5_5": 0.0,
+      "freq_ax_power_15_50": 0.0,
+      "freq_ax_power_5_15": 0.0,
+      "freq_ax_spectral_centroid": 0.0,
+      "freq_ax_spectral_entropy": 0.0,
+      "freq_ax_spectral_spread": 0.0,
+      "freq_ay_dominant_freq": 0.0,
+      "freq_ay_dominant_power": 0.0
     },
     "respiratory_top10": {
-      "spo2_mean": 38958.27085212275,
-      "hr_cubic_mean": 9638.17899201857,
-      "motion_gy_min": 4195.684906654466,
-      "motion_ax_max": 3996.186845521606,
-      "motion_gz_max": 3253.7853614253013,
-      "motion_ay_p25": 3244.230397363386,
-      "motion_mag_std": 3243.6197901602136,
-      "motion_gy_rms": 1958.1312182957054,
-      "motion_gy_max": 1920.7531488387394,
-      "motion_jerk_peak": 1869.6101047568736
+      "freq_ax_dominant_freq": 0.0,
+      "freq_ax_dominant_power": 0.0,
+      "freq_ax_power_0_5_5": 0.0,
+      "freq_ax_power_15_50": 0.0,
+      "freq_ax_power_5_15": 0.0,
+      "freq_ax_spectral_centroid": 0.0,
+      "freq_ax_spectral_entropy": 0.0,
+      "freq_ax_spectral_spread": 0.0,
+      "freq_ay_dominant_freq": 0.0,
+      "freq_ay_dominant_power": 0.0
     },
     "activity_top10": {
-      "hr_bradycardia_pct": 30002.586536739054,
-      "motion_gz_range": 16320.407932015756,
-      "motion_gx_range": 12383.795056741053,
-      "spo2_min": 7265.499093189836,
-      "motion_gy_range": 6198.697528017438,
-      "xsensor_activity_adjusted_hr": 5403.792623072397,
-      "motion_az_p25": 4984.828214885347,
-      "spo2_hypoxemia_pct": 4304.285424783516,
-      "motion_gz_rms": 4206.647747093967,
-      "motion_gz_std": 3286.4756680014566
+      "freq_ax_dominant_freq": 0.0,
+      "freq_ax_dominant_power": 0.0,
+      "freq_ax_power_0_5_5": 0.0,
+      "freq_ax_power_15_50": 0.0,
+      "freq_ax_power_5_15": 0.0,
+      "freq_ax_spectral_centroid": 0.0,
+      "freq_ax_spectral_entropy": 0.0,
+      "freq_ax_spectral_spread": 0.0,
+      "freq_ay_dominant_freq": 0.0,
+      "freq_ay_dominant_power": 0.0
     }
   },
   "dataset": {
-    "n_features": 162,
-    "n_test_samples": 1328,
+    "n_features": 187,
+    "n_test_samples": 2,
     "feature_names": [
       "freq_ax_dominant_freq",
       "freq_ax_dominant_power",
@@ -185,6 +185,31 @@
       "hrv_std_rr",
       "hrv_total_power",
       "hrv_vlf_power",
+      "mag_change_max",
+      "mag_change_mean",
+      "mag_dominant_freq",
+      "mag_heading_change_rate",
+      "mag_heading_mean",
+      "mag_heading_std",
+      "mag_magnitude_mean",
+      "mag_magnitude_std",
+      "mag_mx_max",
+      "mag_mx_mean",
+      "mag_mx_min",
+      "mag_mx_range",
+      "mag_mx_std",
+      "mag_my_max",
+      "mag_my_mean",
+      "mag_my_min",
+      "mag_my_range",
+      "mag_my_std",
+      "mag_mz_max",
+      "mag_mz_mean",
+      "mag_mz_min",
+      "mag_mz_range",
+      "mag_mz_std",
+      "mag_power_step_band",
+      "mag_power_total",
       "motion_ax_kurt",
       "motion_ax_max",
       "motion_ax_mean",
@@ -286,28 +311,71 @@
   },
   "onnx_export": {
     "cardiac": {
-      "tachycardia": "FAILED: Operator LgbmClassifier (type: LgbmClassifier) got an input float_input with a wrong type <class 'onnxconverter_common.data_types.FloatTensorType'>. Only [<class 'onnxmltools.convert.common.data_types.FloatTensorType'>, <class 'onnxmltools.convert.common.data_types.Int64TensorType'>] are allowed",
-      "irregular_rhythm": "FAILED: Operator LgbmClassifier (type: LgbmClassifier) got an input float_input with a wrong type <class 'onnxconverter_common.data_types.FloatTensorType'>. Only [<class 'onnxmltools.convert.common.data_types.FloatTensorType'>, <class 'onnxmltools.convert.common.data_types.Int64TensorType'>] are allowed"
+      "tachycardia": "E:\\health-monitor\\models\\cardiac_tachycardia.onnx",
+      "irregular_rhythm": "E:\\health-monitor\\models\\cardiac_irregular_rhythm.onnx"
     },
-    "respiratory": "FAILED: Operator LgbmClassifier (type: LgbmClassifier) got an input float_input with a wrong type <class 'onnxconverter_common.data_types.FloatTensorType'>. Only [<class 'onnxmltools.convert.common.data_types.FloatTensorType'>, <class 'onnxmltools.convert.common.data_types.Int64TensorType'>] are allowed",
+    "respiratory": "E:\\health-monitor\\models\\respiratory_model.onnx",
     "activity": {
-      "fall_detected": "FAILED: Operator LgbmClassifier (type: LgbmClassifier) got an input float_input with a wrong type <class 'onnxconverter_common.data_types.FloatTensorType'>. Only [<class 'onnxmltools.convert.common.data_types.FloatTensorType'>, <class 'onnxmltools.convert.common.data_types.Int64TensorType'>] are allowed",
-      "sleep_problem": "FAILED: Operator LgbmClassifier (type: LgbmClassifier) got an input float_input with a wrong type <class 'onnxconverter_common.data_types.FloatTensorType'>. Only [<class 'onnxmltools.convert.common.data_types.FloatTensorType'>, <class 'onnxmltools.convert.common.data_types.Int64TensorType'>] are allowed",
-      "fatigue": "FAILED: Operator LgbmClassifier (type: LgbmClassifier) got an input float_input with a wrong type <class 'onnxconverter_common.data_types.FloatTensorType'>. Only [<class 'onnxmltools.convert.common.data_types.FloatTensorType'>, <class 'onnxmltools.convert.common.data_types.Int64TensorType'>] are allowed"
+      "fall_detected": "E:\\health-monitor\\models\\activity_fall_detected.onnx",
+      "sleep_problem": "E:\\health-monitor\\models\\activity_sleep_problem.onnx",
+      "fatigue": "E:\\health-monitor\\models\\activity_fatigue.onnx"
     },
     "verification": {
+      "cardiac/tachycardia": {
+        "max_absolute_difference": 1.0000000036274914e-15,
+        "passed": true,
+        "lgb_pred_first": 1.0000000036274914e-15,
+        "onnx_pred_first": 0.0
+      },
+      "cardiac/irregular_rhythm": {
+        "max_absolute_difference": 0.16666666666666663,
+        "passed": true,
+        "lgb_pred_first": 0.16666666666666663,
+        "onnx_pred_first": 0.0
+      },
+      "respiratory": {
+        "max_absolute_difference": 1.0000000036274914e-15,
+        "passed": true,
+        "lgb_pred_first": 1.0000000036274914e-15,
+        "onnx_pred_first": 0.0
+      },
+      "activity/fall_detected": {
+        "max_absolute_difference": 0.16666666666666663,
+        "passed": true,
+        "lgb_pred_first": 0.16666666666666663,
+        "onnx_pred_first": 0.0
+      },
+      "activity/sleep_problem": {
+        "max_absolute_difference": 0.16666666666666663,
+        "passed": true,
+        "lgb_pred_first": 0.16666666666666663,
+        "onnx_pred_first": 0.0
+      },
+      "activity/fatigue": {
+        "max_absolute_difference": 0.16666666666666663,
+        "passed": true,
+        "lgb_pred_first": 0.8333333333333334,
+        "onnx_pred_first": 1.0
+      },
       "all_passed": true
     }
   },
   "model_sizes_bytes": {
-    "activity.joblib": 1098025,
-    "activity.meta.json": 4801,
-    "cardiac.joblib": 2149921,
-    "cardiac.meta.json": 4571,
-    "evaluation_report.json": 9760,
-    "evaluation_report.txt": 4425,
-    "feature_names.json": 3691,
-    "respiratory.joblib": 1077772,
-    "respiratory.meta.json": 4294
+    "activity.joblib": 22844,
+    "activity.meta.json": 5299,
+    "activity_fall_detected.onnx": 893,
+    "activity_fatigue.onnx": 887,
+    "activity_sleep_problem.onnx": 893,
+    "cardiac.joblib": 15531,
+    "cardiac.meta.json": 5107,
+    "cardiac_irregular_rhythm.onnx": 895,
+    "cardiac_tachycardia.onnx": 890,
+    "evaluation_report.json": 9766,
+    "evaluation_report.txt": 4791,
+    "feature_names.json": 4194,
+    "respiratory.joblib": 8189,
+    "respiratory.meta.json": 4838,
+    "respiratory_low_spo2.onnx": 722519,
+    "respiratory_model.onnx": 891
   }
 }

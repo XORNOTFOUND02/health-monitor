@@ -242,6 +242,7 @@ def _build_feature_input(
     spo2 = np.asarray(sensor_data.get("spo2", []), dtype=np.float64)
     temp = np.asarray(sensor_data.get("temperature", []), dtype=np.float64)
     ppg = np.asarray(sensor_data.get("ppg", []), dtype=np.float64)
+    mag = np.asarray(sensor_data.get("magnetometer", []), dtype=np.float64)
 
     # Accelerometer: 2-D array with columns [ax, ay, az]
     if accel.ndim == 2 and accel.shape[1] >= 3:
@@ -271,6 +272,7 @@ def _build_feature_input(
             "stts22h_celsius": temp,
             "lm35_celsius": temp,
         },
+        "magnetometer": mag,
         "metadata": {
             "sampling_rate": 50.0,
             "hr_sampling_rate": 25.0,

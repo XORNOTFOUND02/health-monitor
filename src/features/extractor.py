@@ -9,6 +9,8 @@ features from a window of sensor data.
 from typing import Any, Dict, List, Optional
 import logging
 
+import numpy as np
+
 from .base import BaseFeatureExtractor
 from .motion import MotionFeatures
 from .heart_rate import HeartRateFeatures
@@ -17,6 +19,7 @@ from .spo2 import SpO2Features
 from .temperature import TemperatureFeatures
 from .cross_sensor import CrossSensorFeatures
 from .frequency_domain import FrequencyDomainFeatures
+from .mag_features import extract_magnetometer_features, list_mag_feature_names
 
 
 # Module-level logger
@@ -38,7 +41,8 @@ class FeatureExtractor:
         - TemperatureFeatures: 9 temperature features
         - CrossSensorFeatures: 15 cross-sensor features
         - FrequencyDomainFeatures: 27 frequency features
-        Total: ~154 features (some may be zeroed due to missing data)
+        - Magnetometer features: ~23 magnetometer features
+        Total: ~185 features (some may be zeroed due to missing data)
     
     Usage:
         extractor = FeatureExtractor()
@@ -66,6 +70,7 @@ class FeatureExtractor:
                 'stts22h_celsius': np.array([...]),
                 'lm35_celsius': np.array([...])
             },
+            'magnetometer': np.array([...]),  # Shape (n, 3) — [Mx, My, Mz] in microtesla
             'metadata': {
                 'sampling_rate': 30.0,
                 'hr_sampling_rate': 4.0,
@@ -125,6 +130,21 @@ class FeatureExtractor:
                 for feature_name in extractor.get_feature_names():
                     all_features[feature_name] = 0.0
         
+        # --- Magnetometer features ---
+        try:
+            from ..config import SAMPLING_RATES
+            mag_sample_rate = float(SAMPLING_RATES.MAG)
+        except Exception:
+            mag_sample_rate = 25.0
+        
+        mag_data = window_data.get("magnetometer", None)
+        if mag_data is not None:
+            mag_arr = np.asarray(mag_data, dtype=np.float64)
+            if mag_arr.ndim == 1:
+                mag_arr = mag_arr.reshape(-1, 1)
+            mag_feats = extract_magnetometer_features(mag_arr, sample_rate=mag_sample_rate)
+            all_features.update(mag_feats)
+        
         return all_features
     
     def get_all_feature_names(self) -> List[str]:
@@ -137,6 +157,8 @@ class FeatureExtractor:
             names: List[str] = []
             for extractor in self.extractors.values():
                 names.extend(extractor.get_feature_names())
+            # Add magnetometer feature names
+            names.extend(list_mag_feature_names())
             self._feature_names = sorted(names)
         return self._feature_names.copy()
     

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import LiveIndicator from "@/components/live-indicator";
+import ThemeToggle from "@/components/theme-toggle";
 import { getHealth, type HealthResponse } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
@@ -39,6 +40,7 @@ export default function Topbar() {
 
       <div className="flex items-center gap-4">
         <LiveIndicator connected={!!health?.models_loaded} lastSeen={Date.now()} />
+        <ThemeToggle />
         <Button variant="ghost" size="icon" onClick={fetchHealth} disabled={loading}>
           <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
         </Button>

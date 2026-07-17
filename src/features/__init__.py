@@ -22,6 +22,7 @@ from .spo2 import SpO2Features
 from .temperature import TemperatureFeatures
 from .cross_sensor import CrossSensorFeatures
 from .frequency_domain import FrequencyDomainFeatures
+from .mag_features import extract_magnetometer_features, list_mag_feature_names
 from .extractor import FeatureExtractor
 
 __all__ = [
@@ -33,5 +34,7 @@ __all__ = [
     "TemperatureFeatures",
     "CrossSensorFeatures",
     "FrequencyDomainFeatures",
+    "extract_magnetometer_features",
+    "list_mag_feature_names",
     "FeatureExtractor",
 ]

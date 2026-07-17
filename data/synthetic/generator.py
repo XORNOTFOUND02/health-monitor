@@ -56,6 +56,7 @@ HR_HZ: int = 25
 PPG_HZ: int = 25
 SPO2_HZ: int = 25
 TEMP_HZ: int = 1
+MAG_HZ: int = 25  # Magnetometer sample rate (Hz) — HMC5883L supports up to 160Hz
 
 
 # ---------------------------------------------------------------------------
@@ -89,6 +90,7 @@ class SamplingConfig:
     ppg_sample_rate_hz: int = PPG_HZ
     spo2_sample_rate_hz: int = SPO2_HZ
     temp_sample_rate_hz: int = TEMP_HZ
+    mag_sample_rate_hz: int = MAG_HZ
 
     def to_dict(self) -> Dict[str, int]:
         return {
@@ -98,6 +100,7 @@ class SamplingConfig:
             "ppg_sample_rate_hz": self.ppg_sample_rate_hz,
             "spo2_sample_rate_hz": self.spo2_sample_rate_hz,
             "temp_sample_rate_hz": self.temp_sample_rate_hz,
+            "mag_sample_rate_hz": self.mag_sample_rate_hz,
         }
 
 
@@ -219,6 +222,82 @@ class SensorSimulator:
             gyro += self.rng.normal(0, 0.03, size=(n_samples, 3))
 
         return gyro
+
+    # -- Magnetometer ---------------------------------------------------
+
+    def generate_magnetometer(
+        self,
+        n_samples: int,
+        activity: str = "resting",
+        heading_deg: float = 0.0,  # base heading in degrees
+        heading_change_rate: float = 0.0,  # degrees per second
+    ) -> np.ndarray:
+        """Generate synthetic 3-axis magnetometer data (microtesla).
+
+        Simulates HMC5883L output: magnetic field vector in uT.
+        Earth's magnetic field is ~25-65 uT depending on location.
+
+        Parameters
+        ----------
+        n_samples : int
+            Number of samples.
+        activity : str
+            Activity state (resting, walking, running).
+        heading_deg : float
+            Base compass heading in degrees (0 = North).
+        heading_change_rate : float
+            How fast heading changes (deg/s) — for turning/wandering.
+
+        Returns
+        -------
+        np.ndarray
+            Shape (n_samples, 3) — [Mx, My, Mz] in microtesla.
+        """
+        mag = np.zeros((n_samples, 3), dtype=np.float64)
+
+        # Earth's magnetic field strength (~45 uT typical)
+        field_strength = 45.0
+
+        # Base heading (direction person is facing)
+        heading_rad = np.deg2rad(heading_deg)
+
+        # Magnetic field vector: Bx = strength * cos(heading), By = strength * sin(heading)
+        # Z component points down (~35 uT at mid-latitudes)
+        b_horizontal = field_strength * 0.8  # horizontal component
+        b_vertical = field_strength * 0.6    # vertical component
+
+        mag[:, 0] = b_horizontal * np.cos(heading_rad)  # North component
+        mag[:, 1] = b_horizontal * np.sin(heading_rad)  # East component
+        mag[:, 2] = b_vertical  # Down component
+
+        # Activity-specific magnetic variation
+        t = np.arange(n_samples, dtype=np.float64)
+
+        if activity == "resting":
+            # Very stable, just sensor noise
+            mag += self.rng.normal(0, 0.05, size=(n_samples, 3))
+
+        elif activity == "walking":
+            # Slow heading drift (person walks in a slightly curved path)
+            drift_rate = heading_change_rate if heading_change_rate > 0 else self.rng.uniform(0.5, 3.0)
+            drift_rad = np.deg2rad(drift_rate * t / MAG_HZ)
+            mag[:, 0] = b_horizontal * np.cos(heading_rad + drift_rad)
+            mag[:, 1] = b_horizontal * np.sin(heading_rad + drift_rad)
+            # Body motion noise (arm swing affects magnetometer slightly)
+            step_freq = self.rng.uniform(1.5, 2.2)
+            mag[:, 0] += 0.3 * np.sin(2 * np.pi * step_freq * t / MAG_HZ)
+            mag += self.rng.normal(0, 0.15, size=(n_samples, 3))
+
+        elif activity == "running":
+            drift_rate = heading_change_rate if heading_change_rate > 0 else self.rng.uniform(1.0, 5.0)
+            drift_rad = np.deg2rad(drift_rate * t / MAG_HZ)
+            mag[:, 0] = b_horizontal * np.cos(heading_rad + drift_rad)
+            mag[:, 1] = b_horizontal * np.sin(heading_rad + drift_rad)
+            step_freq = self.rng.uniform(2.5, 3.5)
+            mag[:, 0] += 0.8 * np.sin(2 * np.pi * step_freq * t / MAG_HZ)
+            mag += self.rng.normal(0, 0.3, size=(n_samples, 3))
+
+        return mag
 
     # -- SpO2 ------------------------------------------------------------
 
@@ -973,6 +1052,7 @@ class SyntheticDataGenerator:
         n_ppg = duration_sec * PPG_HZ
         n_spo2 = duration_sec * SPO2_HZ
         n_temp = duration_sec * TEMP_HZ
+        n_mag = duration_sec * MAG_HZ
 
         # --- Heart rate ---
         rhythm_type = "normal"
@@ -1003,6 +1083,32 @@ class SyntheticDataGenerator:
         # --- Gyroscope ---
         gyro = sensor.generate_gyroscope(n_gyro, activity=activity)
 
+        # --- Magnetometer ---
+        # Base heading varies by activity
+        if activity == "resting":
+            heading = rng.uniform(0, 360)
+            heading_change = 0.0
+        elif activity == "walking":
+            heading = rng.uniform(0, 360)
+            heading_change = rng.uniform(1.0, 5.0)
+        else:
+            heading = rng.uniform(0, 360)
+            heading_change = rng.uniform(2.0, 8.0)
+
+        # Condition-specific heading patterns
+        if condition == "low_spo2":
+            # Erratic heading (staggering due to hypoxia)
+            heading_change *= 3.0
+        elif condition == "fatigue":
+            # Slower, more meandering
+            heading_change *= 0.5
+        elif condition == "sleep_problem":
+            # Random heading changes (tossing in bed)
+            heading = rng.uniform(0, 360)
+            heading_change = rng.uniform(10, 30)
+
+        mag = sensor.generate_magnetometer(n_mag, activity=activity, heading_deg=heading, heading_change_rate=heading_change)
+
         # --- SpO2 ---
         spo2_mod = "low_spo2" if condition == "low_spo2" else None
         spo2_baseline = 97.5
@@ -1032,6 +1138,7 @@ class SyntheticDataGenerator:
             "spo2": spo2,
             "temperature": temp,
             "ppg": ppg,
+            "magnetometer": mag,
         }
 
     def _generate_fall_session(
@@ -1048,6 +1155,7 @@ class SyntheticDataGenerator:
         n_ppg = duration_sec * PPG_HZ
         n_spo2 = duration_sec * SPO2_HZ
         n_temp = duration_sec * TEMP_HZ
+        n_mag = duration_sec * MAG_HZ
 
         fall_sim = FallSimulator(rng)
 
@@ -1091,6 +1199,28 @@ class SyntheticDataGenerator:
         # PPG — follows HR
         ppg = self._ppg.generate(n_ppg, heart_rate_bpm=np.mean(hr_series))
 
+        # Magnetometer — heading changes rapidly during a fall
+        mag = np.zeros((n_mag, 3), dtype=np.float64)
+        field_strength = 45.0
+        b_h = field_strength * 0.8
+        b_v = field_strength * 0.6
+        # Stable heading before fall
+        heading_rad = np.deg2rad(rng.uniform(0, 360))
+        mag[:, 0] = b_h * np.cos(heading_rad)
+        mag[:, 1] = b_h * np.sin(heading_rad)
+        mag[:, 2] = b_v
+        # Rapid heading change during fall
+        fall_onset = int(n_mag * rng.uniform(0.20, 0.30))
+        fall_window = min(int(0.8 * MAG_HZ), n_mag - fall_onset)
+        if fall_window > 0:
+            t_fall = np.arange(fall_window, dtype=np.float64) / MAG_HZ
+            # Heading spins during fall
+            spin = 90.0 * (1 - np.exp(-3 * t_fall))  # up to 90 degree rotation
+            spin_rad = np.deg2rad(spin)
+            mag[fall_onset:fall_onset+fall_window, 0] = b_h * np.cos(heading_rad + spin_rad)
+            mag[fall_onset:fall_onset+fall_window, 1] = b_h * np.sin(heading_rad + spin_rad)
+        mag += rng.normal(0, 0.1, size=(n_mag, 3))
+
         return {
             "accelerometer": accel,
             "gyroscope": gyro,
@@ -1098,6 +1228,7 @@ class SyntheticDataGenerator:
             "spo2": spo2,
             "temperature": temp,
             "ppg": ppg,
+            "magnetometer": mag,
         }
 
     def _generate_sleep_problem_session(
@@ -1119,6 +1250,7 @@ class SyntheticDataGenerator:
         n_ppg = duration_sec * PPG_HZ
         n_spo2 = duration_sec * SPO2_HZ
         n_temp = duration_sec * TEMP_HZ
+        n_mag = duration_sec * MAG_HZ
 
         # Accelerometer — restless: intermittent bursts of motion
         accel = np.zeros((n_accel, 3), dtype=np.float64)
@@ -1179,6 +1311,28 @@ class SyntheticDataGenerator:
         # PPG
         ppg = ppg_sim.generate(n_ppg, heart_rate_bpm=np.mean(hr_series))
 
+        # Magnetometer — random heading changes during restless sleep
+        mag = np.zeros((n_mag, 3), dtype=np.float64)
+        field_strength = 45.0
+        b_h = field_strength * 0.8
+        b_v = field_strength * 0.5  # slightly less vertical when lying down
+        # Base heading when lying down
+        heading_rad = np.deg2rad(rng.uniform(0, 360))
+        mag[:, 0] = b_h * np.cos(heading_rad)
+        mag[:, 1] = b_h * np.sin(heading_rad)
+        mag[:, 2] = b_v
+        # Tossing/turning events
+        n_episodes_mag = max(3, duration_sec // 60)
+        for _ in range(n_episodes_mag):
+            ep_start = rng.integers(0, max(1, n_mag - 100))
+            ep_dur = rng.integers(30, min(200, n_mag - ep_start))
+            if ep_dur > 0:
+                t_ep = np.arange(ep_dur, dtype=np.float64) / MAG_HZ
+                turn_angle = np.deg2rad(rng.uniform(20, 180) * np.sin(2 * np.pi * t_ep / ep_dur * 3))
+                mag[ep_start:ep_start+ep_dur, 0] = b_h * np.cos(heading_rad + turn_angle)
+                mag[ep_start:ep_start+ep_dur, 1] = b_h * np.sin(heading_rad + turn_angle)
+        mag += rng.normal(0, 0.08, size=(n_mag, 3))
+
         return {
             "accelerometer": accel,
             "gyroscope": gyro,
@@ -1186,6 +1340,7 @@ class SyntheticDataGenerator:
             "spo2": spo2,
             "temperature": temp,
             "ppg": ppg,
+            "magnetometer": mag,
         }
 
     # ------------------------------------------------------------------
@@ -1259,6 +1414,7 @@ class SyntheticDataGenerator:
         spo2 = session_data["spo2"]
         temp = session_data["temperature"]
         ppg = session_data["ppg"]
+        mag = session_data["magnetometer"]
 
         for w_idx in range(n_windows):
             t_start = w_idx * stride_sec
@@ -1276,6 +1432,8 @@ class SyntheticDataGenerator:
             t1 = int((t_start + window_sec) * TEMP_HZ)
             p0 = int(t_start * PPG_HZ)
             p1 = int((t_start + window_sec) * PPG_HZ)
+            m0 = int(t_start * MAG_HZ)
+            m1 = int((t_start + window_sec) * MAG_HZ)
 
             # Clamp
             a1 = min(a1, len(accel))
@@ -1284,6 +1442,7 @@ class SyntheticDataGenerator:
             s1 = min(s1, len(spo2))
             t1 = min(t1, len(temp))
             p1 = min(p1, len(ppg))
+            m1 = min(m1, len(mag))
 
             # Convert accelerometer to list of [ax, ay, az]
             accel_window = accel[a0:a1].tolist() if a0 < a1 else [[0.0, 9.81, 0.0]]
@@ -1302,6 +1461,7 @@ class SyntheticDataGenerator:
                         "temperature": temp[t0:t1].tolist() if t0 < t1 else [36.5],
                         "spo2": spo2[s0:s1].tolist() if s0 < s1 else [97.0],
                         "ppg": ppg[p0:p1].tolist() if p0 < p1 else [0.0],
+                        "magnetometer": mag[m0:m1].tolist() if m0 < m1 else [[45.0, 0.0, 27.0]],
                     },
                 }
             )

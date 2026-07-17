@@ -2,32 +2,32 @@
 HEALTH MONITOR — TRAINING PIPELINE EVALUATION REPORT
 ======================================================================
 
-Test samples : 1328
-Features     : 162
+Test samples : 2
+Features     : 187
 
 ----------------------------------------------------------------------
   CARDIAC MODEL
 ----------------------------------------------------------------------
   [tachycardia]
-    accuracy            : 1.0000
-    precision           : 1.0000
-    recall              : 1.0000
-    f1                  : 1.0000
-    auc_roc             : 1.0000
-    support_true        : 194
-    support_false       : 1134
+    accuracy            : 0.5000
+    precision           : 0.0000
+    recall              : 0.0000
+    f1                  : 0.0000
+    auc_roc             : 0.5000
+    support_true        : 1
+    support_false       : 1
   [irregular_rhythm]
     accuracy            : 1.0000
-    precision           : 1.0000
-    recall              : 1.0000
-    f1                  : 1.0000
-    auc_roc             : 1.0000
-    support_true        : 116
-    support_false       : 1212
+    precision           : 0.0000
+    recall              : 0.0000
+    f1                  : 0.0000
+    auc_roc             : 0.0000
+    support_true        : 0
+    support_false       : 2
   [Overall]
-    accuracy            : 1.0000
-    macro_f1            : 1.0000
-    weighted_f1         : 1.0000
+    accuracy            : 0.7500
+    macro_f1            : 0.4286
+    weighted_f1         : 0.6429
 
 ----------------------------------------------------------------------
   RESPIRATORY MODEL
@@ -38,75 +38,81 @@ Features     : 162
 ----------------------------------------------------------------------
   [fall_detected]
     accuracy            : 1.0000
-    precision           : 1.0000
-    recall              : 1.0000
-    f1                  : 1.0000
-    auc_roc             : 1.0000
-    support_true        : 148
-    support_false       : 1180
+    precision           : 0.0000
+    recall              : 0.0000
+    f1                  : 0.0000
+    auc_roc             : 0.0000
+    support_true        : 0
+    support_false       : 2
   [sleep_problem]
-    accuracy            : 0.9925
-    precision           : 0.9624
-    recall              : 0.9903
-    f1                  : 0.9762
-    auc_roc             : 0.9996
-    support_true        : 207
-    support_false       : 1121
+    accuracy            : 0.5000
+    precision           : 0.0000
+    recall              : 0.0000
+    f1                  : 0.0000
+    auc_roc             : 0.5000
+    support_true        : 1
+    support_false       : 1
   [fatigue]
     accuracy            : 1.0000
     precision           : 1.0000
     recall              : 1.0000
     f1                  : 1.0000
-    auc_roc             : 1.0000
-    support_true        : 1261
-    support_false       : 67
+    auc_roc             : 0.0000
+    support_true        : 2
+    support_false       : 0
   [Overall]
-    accuracy            : 0.9975
-    macro_f1            : 0.9974
-    weighted_f1         : 0.9975
+    accuracy            : 0.8333
+    macro_f1            : 0.8286
+    weighted_f1         : 0.8286
 
 ----------------------------------------------------------------------
   TOP 10 FEATURES BY MODEL
 ----------------------------------------------------------------------
   cardiac_top10:
-    hr_tachycardia_pct                      : 15335.7198
-    xsensor_fall_risk                       : 11995.4822
-    hr_entropy                              : 8660.2252
-    hr_cubic_mean                           : 8251.5489
-    motion_gy_max                           : 5353.4858
-    motion_jerk_peak                        : 4537.5200
-    motion_gy_range                         : 4031.1223
-    hrv_median_rr                           : 3162.1062
-    motion_jerk_mean                        : 3006.1682
-    hr_min                                  : 2687.8477
+    freq_ax_dominant_freq                   : 0.0000
+    freq_ax_dominant_power                  : 0.0000
+    freq_ax_power_0_5_5                     : 0.0000
+    freq_ax_power_15_50                     : 0.0000
+    freq_ax_power_5_15                      : 0.0000
+    freq_ax_spectral_centroid               : 0.0000
+    freq_ax_spectral_entropy                : 0.0000
+    freq_ax_spectral_spread                 : 0.0000
+    freq_ay_dominant_freq                   : 0.0000
+    freq_ay_dominant_power                  : 0.0000
 
   respiratory_top10:
-    spo2_mean                               : 38958.2709
-    hr_cubic_mean                           : 9638.1790
-    motion_gy_min                           : 4195.6849
-    motion_ax_max                           : 3996.1868
-    motion_gz_max                           : 3253.7854
-    motion_ay_p25                           : 3244.2304
-    motion_mag_std                          : 3243.6198
-    motion_gy_rms                           : 1958.1312
-    motion_gy_max                           : 1920.7531
-    motion_jerk_peak                        : 1869.6101
+    freq_ax_dominant_freq                   : 0.0000
+    freq_ax_dominant_power                  : 0.0000
+    freq_ax_power_0_5_5                     : 0.0000
+    freq_ax_power_15_50                     : 0.0000
+    freq_ax_power_5_15                      : 0.0000
+    freq_ax_spectral_centroid               : 0.0000
+    freq_ax_spectral_entropy                : 0.0000
+    freq_ax_spectral_spread                 : 0.0000
+    freq_ay_dominant_freq                   : 0.0000
+    freq_ay_dominant_power                  : 0.0000
 
   activity_top10:
-    hr_bradycardia_pct                      : 30002.5865
-    motion_gz_range                         : 16320.4079
-    motion_gx_range                         : 12383.7951
-    spo2_min                                : 7265.4991
-    motion_gy_range                         : 6198.6975
-    xsensor_activity_adjusted_hr            : 5403.7926
-    motion_az_p25                           : 4984.8282
-    spo2_hypoxemia_pct                      : 4304.2854
-    motion_gz_rms                           : 4206.6477
-    motion_gz_std                           : 3286.4757
+    freq_ax_dominant_freq                   : 0.0000
+    freq_ax_dominant_power                  : 0.0000
+    freq_ax_power_0_5_5                     : 0.0000
+    freq_ax_power_15_50                     : 0.0000
+    freq_ax_power_5_15                      : 0.0000
+    freq_ax_spectral_centroid               : 0.0000
+    freq_ax_spectral_entropy                : 0.0000
+    freq_ax_spectral_spread                 : 0.0000
+    freq_ay_dominant_freq                   : 0.0000
+    freq_ay_dominant_power                  : 0.0000
 
 ----------------------------------------------------------------------
   ONNX EXPORT & VERIFICATION
 ----------------------------------------------------------------------
+  cardiac/tachycardia           : [PASS]  max_diff=1.00e-15
+  cardiac/irregular_rhythm      : [PASS]  max_diff=1.67e-01
+  respiratory                   : [PASS]  max_diff=1.00e-15
+  activity/fall_detected        : [PASS]  max_diff=1.67e-01
+  activity/sleep_problem        : [PASS]  max_diff=1.67e-01
+  activity/fatigue              : [PASS]  max_diff=1.67e-01
   All passed                    : YES
 
 ======================================================================
