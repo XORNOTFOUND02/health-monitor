@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import ConditionBadge from "@/components/condition-badge";
 import LiveIndicator from "@/components/live-indicator";
+import SensorWaveform from "@/components/sensor-waveform";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -30,6 +31,7 @@ export default function MonitorPage() {
   const [selectedCondition, setSelectedCondition] = useState("normal");
   const [severity, setSeverity] = useState("1");
   const [prediction, setPrediction] = useState<Prediction | null>(null);
+  const [sensorData, setSensorData] = useState<Record<string, any> | null>(null);
   const [loading, setLoading] = useState(false);
   const [useMock, setUseMock] = useState(false);
 
@@ -39,8 +41,10 @@ export default function MonitorPage() {
       if (useMock) {
         await new Promise((r) => setTimeout(r, 500));
         setPrediction(MOCK_PREDICTION);
+        setSensorData(null);
       } else {
         const demo = await generateDemo(selectedCondition, parseInt(severity));
+        setSensorData(demo.sensor_data);
         const result = await predict(demo.sensor_data);
         setPrediction(result);
       }
@@ -48,6 +52,7 @@ export default function MonitorPage() {
       // Fallback to mock
       await new Promise((r) => setTimeout(r, 500));
       setPrediction(MOCK_PREDICTION);
+      setSensorData(null);
     } finally {
       setLoading(false);
     }
@@ -226,6 +231,9 @@ export default function MonitorPage() {
           </Card>
         </div>
       )}
+
+      {/* Sensor Waveform Visuals */}
+      {sensorData && <SensorWaveform sensorData={sensorData} />}
     </div>
   );
 }

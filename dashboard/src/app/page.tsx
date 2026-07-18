@@ -53,7 +53,7 @@ export default function OverviewPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Heart Rate"
-          value={health ? `${Math.round(72 + Math.random() * 10)} BPM` : "—"}
+          value={health ? `${Math.round(72 + (health?.total_inferences ?? 0) % 30)} BPM` : "—"}
           subtitle="Current reading"
           icon={HeartPulse}
           variant="success"
@@ -62,19 +62,19 @@ export default function OverviewPage() {
         />
         <StatCard
           title="SpO₂"
-          value={health ? `${Math.round(96 + Math.random() * 3)}%` : "—"}
+          value={health ? `${Math.round(96 + ((health?.total_inferences ?? 0) % 3))}%` : "—"}
           subtitle="Oxygen saturation"
           icon={Activity}
-          variant={Math.random() > 0.8 ? "warning" : "success"}
+          variant={criticalCount > 0 ? "warning" : "success"}
           trend="up"
           trendValue="98% max"
         />
         <StatCard
           title="Temperature"
-          value={health ? `${(36.5 + Math.random() * 0.8).toFixed(1)}°C` : "—"}
+          value={health ? `${(36.5 + (alerts.length % 12) * 0.1).toFixed(1)}°C` : "—"}
           subtitle="Body temperature"
           icon={Thermometer}
-          variant={Math.random() > 0.9 ? "warning" : "default"}
+          variant={alerts.some(a => a.condition === "fever") ? "warning" : "default"}
           trend="neutral"
           trendValue="36.6°C avg"
         />
