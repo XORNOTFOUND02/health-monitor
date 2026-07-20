@@ -42,7 +42,7 @@ export default function Sidebar() {
           <HeartPulse className="h-5 w-5 text-primary-foreground" />
         </div>
         {!collapsed && (
-          <span className="font-semibold text-sm tracking-tight">Health Monitor</span>
+          <span className="font-semibold text-sm tracking-tight">NeuraBand</span>
         )}
       </div>
 

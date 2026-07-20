@@ -1,5 +1,5 @@
 /**
- * API client for the Health Monitor backend.
+ * API client for the NeuraBand backend.
  * Falls back to mock data when the backend is unreachable.
  */
 

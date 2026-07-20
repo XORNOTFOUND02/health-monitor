@@ -1,5 +1,5 @@
 ---
-title: Health Monitor
+title: NeuraBand
 emoji: "\U0001FA7A"
 colorFrom: blue
 colorTo: green
@@ -10,7 +10,7 @@ pinned: true
 license: mit
 ---
 
-# Health Monitor
+# NeuraBand
 
 AI-powered health symptom detection from wearable sensor data.
 

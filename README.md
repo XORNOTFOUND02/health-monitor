@@ -1,13 +1,13 @@
-# Health Monitor
+# NeuraBand
 
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.6.0-green.svg)](https://lightgbm.readthedocs.io/)
 [![Gradio](https://img.shields.io/badge/Gradio-4%2B-orange.svg)](https://gradio.app/)
 [![Tests](https://img.shields.io/badge/tests-73%20passing-brightgreen.svg)](tests/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yourusername/health-monitor/pulls)
+[![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/XORNOTFOUND02/health-monitor/pulls)
 
-AI-powered health symptom detection from wearable sensor data. Uses an ensemble of **LightGBM** classifiers with a **rule-based fever engine** to detect 7 health conditions from MPU6500 (accelerometer + gyroscope), MAX30102 (heart rate, SpO2, PPG), STTS22H, and LM35 sensors.
+AI-powered health symptom detection from wearable sensor data. Uses an ensemble of **LightGBM** classifiers with a **rule-based fever engine** to detect 7 health conditions from MPU6500 (accelerometer + gyroscope), HMC5883L (magnetometer), MAX30102 (heart rate, SpO2, PPG), STTS22H, and LM35 sensors.
 
 Designed for **Hugging Face Spaces free CPU tier** (2 vCPU, 16 GB RAM) and trained on **local GPU** (RTX 2050, 4 GB VRAM).
 

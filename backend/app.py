@@ -1,5 +1,5 @@
 """
-Health Monitor API — FastAPI Backend
+Health Monitor API — FastAPI Backend for NeuraBand
 Deployable on Hugging Face Spaces (free CPU tier: 2 vCPU, 16 GB RAM)
 Auto-detected by HF Spaces when app_file: backend/app.py is set in README.md
 """
@@ -33,10 +33,10 @@ log = logging.getLogger("api")
 
 # ── FastAPI App ──
 app = FastAPI(
-    title="Health Monitor API",
-    version="2.0.0",
-    description="Real-time health monitoring inference API — detects 7+ conditions from wearable sensor data",
-    contact={"name": "Health Monitor", "url": "https://github.com/XORNOTFOUND02/health-monitor"},
+    title="NeuraBand API",
+    version="1.0.0",
+    description="Real-time AI-powered health monitoring inference API — detects 7+ conditions from wearable sensor data",
+    contact={"name": "NeuraBand", "url": "https://github.com/XORNOTFOUND02/health-monitor"},
 )
 
 app.add_middleware(
@@ -106,7 +106,7 @@ async def startup():
 @app.get("/")
 async def root():
     return {
-        "message": "Health Monitor API",
+        "message": "NeuraBand API",
         "docs": "/docs",
         "version": "2.0.0",
         "status": "running" if predictor and predictor.is_loaded else "loading",

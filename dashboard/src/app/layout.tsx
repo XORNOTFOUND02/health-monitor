@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Health Monitor — Dashboard",
-  description: "Real-time health monitoring dashboard with AI-powered symptom detection",
+  title: "NeuraBand — Dashboard",
+  description: "Real-time AI-powered health monitoring dashboard for wearable sensor data",
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
           __html: `
             (function() {
               try {
-                var t = localStorage.getItem("health-monitor-theme");
+                var t = localStorage.getItem("neuraband-theme");
                 if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
                   document.documentElement.classList.add("dark");
                 }

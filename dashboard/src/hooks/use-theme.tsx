@@ -16,7 +16,7 @@ const ThemeCtx = createContext<ThemeContext>({
   setTheme: () => {},
 });
 
-const STORAGE_KEY = "health-monitor-theme";
+const STORAGE_KEY = "neuraband-theme";
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
