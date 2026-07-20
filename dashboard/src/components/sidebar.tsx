@@ -11,6 +11,7 @@ import {
   HeartPulse,
   Settings,
   Users,
+  BookOpen,
   ChevronLeft,
 } from "lucide-react";
 import { useState } from "react";
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/history", label: "History", icon: Calendar },
   { href: "/patients", label: "Patients", icon: Users },
   { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/info", label: "Info", icon: BookOpen },
 ];
 
 export default function Sidebar() {
